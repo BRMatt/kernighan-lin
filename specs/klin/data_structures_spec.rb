@@ -92,4 +92,19 @@ describe Klin::Edge do
   describe "#nodes" do
     specify { expect(an_edge.nodes).to eql([an_edge.source, an_edge.target]) }
   end
+
+  describe "#within_partition?" do
+    context "when all nodes incident to the edge are in the partition" do
+      let(:partition) { [node(:a), node(:b)] }
+
+      specify { expect(an_edge).to be_within_partition(partition) }
+    end
+    context "when one of the nodes incident to  edge is in the partition" do
+      specify { expect(an_edge).to_not be_within_partition([node(:a)]) }
+      specify { expect(an_edge).to_not be_within_partition([node(:b)]) }
+    end
+    context "when none of the nodes incident to edge are in partition" do
+      specify { expect(an_edge).to_not be_within_partition([node(:c)]) }
+    end
+  end
 end
