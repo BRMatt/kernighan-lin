@@ -24,7 +24,7 @@ module Klin
     def calculate
       set_a,set_b = random_partition(nodes)
 
-
+      # Loop start
       set_a_temp, set_b_temp = set_a.dup, set_b.dup
       swapped_nodes = []
       swaps = []
@@ -33,9 +33,22 @@ module Klin
         # Generate all pairs of nodes (a,b) excluding the nodes in swapped_nodes
         all_pairs = pairer.pairs(set_a_temp, set_b_temp, swapped_nodes)
 
-        swap_scorer.find_best_swap(all_pairs, d)
+        swap = swap_scorer.find_best_swap(all_pairs, d)
+
+        swaps[i] = swap
+
+        swapped_nodes << swap.node_from_a
+        swapped_nodes << swap.node_from_b
+
+        set_a_temp.delete(swap.node_from_a)
+        set_b_temp.delete(swap.node_from_b)
+
+        set_a_temp << swap.node_from_b
+        set_b_temp << swap.node_from_a
 
       end
+
+      # Loop end
     end
 
 

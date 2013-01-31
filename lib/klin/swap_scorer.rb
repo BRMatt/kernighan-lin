@@ -1,16 +1,24 @@
 
 class Klin::Swap
-  attr_reader :pair, :g
+  attr_reader :pair, :gain
 
-  def initialize(pair, g)
-    @pair = pair
-    @g = g
+  def initialize(pair, gain)
+    @pair = Array(pair)
+    @gain = gain
   end
 
   def eql?(other)
-    other.respond_to?(:pair) && @pair.eql?(other.pair) && @g.eql?(other.g)
+    other.respond_to?(:pair) && @pair.eql?(other.pair) && @gain.eql?(other.gain)
   end
   alias_method :==, :eql?
+
+  def node_from_a
+    @pair.first
+  end
+
+  def node_from_b
+    @pair.last
+  end
 end
 class Klin::SwapScorer
   attr_reader :node_edges
