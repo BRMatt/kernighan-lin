@@ -32,8 +32,23 @@ describe Klin::SwapScorer do
 
   describe "#find_best_swap" do
     subject(:best_swap) { scorer.find_best_swap(pairs, differences) }
-    let(:acceptable_swaps) { [[Node(:a), Node(:d)], [Node(:b), Node(:c)]] }
+    let(:acceptable_swaps) { [
+        [[Node(:a), Node(:d)], 7],
+        [[Node(:b), Node(:c)], 7]
+      ]
+    }
 
     specify { expect(acceptable_swaps).to include(best_swap) }
+  end
+
+  describe "#find_all_best_swaps" do
+    subject(:best_swap) { scorer.find_all_best_swaps(pairs, differences) }
+    let(:acceptable_swaps) { [
+        [[Node(:a), Node(:d)], [Node(:b), Node(:c)]],
+        7
+      ]
+    }
+
+    specify { expect(acceptable_swaps).to eql(best_swap) }
   end
 end
