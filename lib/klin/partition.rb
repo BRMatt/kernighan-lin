@@ -45,7 +45,6 @@ module Klin
 
         set_a_temp << swap.node_from_b
         set_b_temp << swap.node_from_a
-
       end
 
       index_of_max, g_max = gain_maximiser.maximise(swaps)

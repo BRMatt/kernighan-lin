@@ -54,3 +54,42 @@ describe Klin::Node do
     specify { expect(node(:a).inspect).to eql("Node(a)") }
   end
 end
+
+describe Klin::Edge do
+  def node(id)
+    Klin::Node.new(id)
+  end
+  def edge(source, target, cost)
+    described_class.new(source, target, cost)
+  end
+
+  subject(:an_edge) { edge(:a, :b, 2) }
+
+  describe "#source" do
+    specify { expect(an_edge.source).to eql(node(:a)) }
+  end
+
+  describe "#target" do
+    specify { expect(an_edge.target).to eql(node(:b)) }
+  end
+
+  describe "#to_edge" do
+    specify { expect(an_edge).to be(an_edge) }
+  end
+
+  describe "#incident_to?" do
+    context "when the edge is incident to the node" do
+      specify { expect(an_edge).to be_incident_to(an_edge.source) }
+      specify { expect(an_edge).to be_incident_to(an_edge.target) }
+      specify { expect(an_edge).to be_incident_to(node(:a)) }
+    end
+
+    context "when the edge is not incident to the node" do
+      specify { expect(an_edge).to_not be_incident_to(node(:c)) }
+    end
+  end
+
+  describe "#nodes" do
+    specify { expect(an_edge.nodes).to eql([an_edge.source, an_edge.target]) }
+  end
+end

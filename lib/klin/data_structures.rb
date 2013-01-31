@@ -43,8 +43,12 @@ module Klin
       [@source, @target]
     end
 
-    def within_partition(partition)
+    def within_partition?(partition)
       partition.include?(@source) && partition.include?(@target)
+    end
+
+    def inspect
+      "Edge(#{@source.inspect}-#{@target.inspect}, cost=#{@cost})"
     end
   end
 end
