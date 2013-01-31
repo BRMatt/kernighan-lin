@@ -1,7 +1,5 @@
 
 class Klin::GainMaximiser
-
-
   def maximise(swaps)
     current_gain = 0
     gains = swaps.map { |swap| current_gain += swap.gain }

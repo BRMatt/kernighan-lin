@@ -48,6 +48,16 @@ module Klin
 
       end
 
+      index_of_max, g_max = gain_maximiser.maximise(swaps)
+
+      for i in 0..index_of_max do
+        a.delete(swaps[i].node_from_a)
+        b.delete(swaps[i].node_from_b)
+
+        a << swaps[i].node_from_b
+        b << swaps[i].node_from_a
+      end
+
       # Loop end
     end
 
@@ -75,6 +85,10 @@ module Klin
 
     def swap_scorer
       @swap_scorer ||= SwapScorer.new(node_edges)
+    end
+
+    def gain_maximiser
+      @gain_maximiser ||= GainMaximiser.new
     end
   end
 end
