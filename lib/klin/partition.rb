@@ -65,7 +65,7 @@ module Klin
 
       end while g_max > 0
 
-      [set_a, set_b]
+      [set_a.sort, set_b.sort]
     end
 
 

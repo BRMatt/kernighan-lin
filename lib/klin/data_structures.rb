@@ -18,6 +18,10 @@ module Klin
     end
     alias_method :==, :eql?
 
+    def <=>(other)
+      @id <=> other.id
+    end
+
     def hash
       @id.hash
     end
