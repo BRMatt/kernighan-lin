@@ -4,3 +4,5 @@ require "rubygems"
 require "bundler/setup"
 require 'rspec/autorun'
 require 'klin_solver.rb'
+require 'pry'
+require 'plymouth'

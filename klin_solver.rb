@@ -4,6 +4,7 @@ require 'klin/data_structures'
 require 'klin/pairer'
 require 'klin/partition'
 require 'klin/partition_costs'
+require 'klin/swap_scorer'
 
 def Node(node)
   if node.respond_to? :to_node
@@ -13,17 +14,17 @@ def Node(node)
   end
 end
 
-def Edge(edge)
-  if edge.respond_to? :to_edge
-    edge.to_edge
+def Edge(*args)
+  if args.size == 1 && args.first.respond_to?(:to_edge)
+    args.first.to_edge
   else
-    a_edge = Array(edge)
+    edge = if args.size > 1 then args else Array(args.first) end
 
-    unless a_edge.length == 3
+    unless edge.length == 3
       raise "Unknown edge, #{edge}"
     end
 
-    Klin::Edge.new(a_edge)
+    Klin::Edge.new(*edge)
   end
 end
 

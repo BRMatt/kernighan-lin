@@ -1,8 +1,28 @@
 
-module KLin
+module Klin
 
-  Node        = Struct.new(:id) { def to_node; self; end }
-  class FullEdge
+  class Node
+    attr_reader :id
+
+    def initialize(id)
+      @id = id
+    end
+
+    def inspect
+      "Node(#{String(@id)})"
+    end
+
+    def eql?(other)
+      other.id == @id
+    end
+    alias_method :==, :eql?
+
+    def to_node
+      self
+    end
+  end
+
+  class Edge
     attr_reader :source, :target, :cost
     def initialize(source, target, cost)
       @source = Node(source)
