@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe Klin::Pairer do
   Node = Struct.new(:id)

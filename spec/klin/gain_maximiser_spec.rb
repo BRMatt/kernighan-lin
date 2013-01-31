@@ -1,4 +1,4 @@
-require_relative '../spec_helper'
+require 'spec_helper'
 
 describe Klin::GainMaximiser do
   def swap(node_from_a, node_from_b, gain)

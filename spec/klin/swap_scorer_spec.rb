@@ -1,3 +1,4 @@
+require 'spec_helper'
 
 describe Klin::SwapScorer do
   # Nodes a,b are on one side, c,d on the other
