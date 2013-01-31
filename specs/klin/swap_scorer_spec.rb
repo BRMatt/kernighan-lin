@@ -51,4 +51,21 @@ describe Klin::SwapScorer do
 
     specify { expect(acceptable_swaps).to eql(best_swap) }
   end
+
+  describe "#cost_of_edge_between" do
+    subject(:cost) { scorer.cost_of_edge_between(node_a, node_b) }
+
+    context "for two nodes that are connected" do
+      let(:node_a) { Node(:a) }
+      let(:node_b) { Node(:c) }
+
+      specify { expect(cost).to be(10) }
+    end
+    context "for two nodes that are not connected" do
+      let(:node_a) { Node(:a) }
+      let(:node_b) { Node(:d) }
+
+      specify { expect(cost).to be_nil }
+    end
+  end
 end
