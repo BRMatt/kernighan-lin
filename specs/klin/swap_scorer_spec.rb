@@ -27,27 +27,22 @@ describe Klin::SwapScorer do
       [Node(:b), Node(:d)]
     ]
   end
+  let(:acceptable_swaps) { [
+      Klin::Swap.new([Node(:a), Node(:d)], 7),
+      Klin::Swap.new([Node(:b), Node(:c)], 7)
+    ]
+  }
 
   subject(:scorer) { described_class.new(node_edges) }
 
   describe "#find_best_swap" do
     subject(:best_swap) { scorer.find_best_swap(pairs, differences) }
-    let(:acceptable_swaps) { [
-        [[Node(:a), Node(:d)], 7],
-        [[Node(:b), Node(:c)], 7]
-      ]
-    }
 
     specify { expect(acceptable_swaps).to include(best_swap) }
   end
 
   describe "#find_all_best_swaps" do
     subject(:best_swap) { scorer.find_all_best_swaps(pairs, differences) }
-    let(:acceptable_swaps) { [
-        [[Node(:a), Node(:d)], [Node(:b), Node(:c)]],
-        7
-      ]
-    }
 
     specify { expect(acceptable_swaps).to eql(best_swap) }
   end

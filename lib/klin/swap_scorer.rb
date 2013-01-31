@@ -1,4 +1,17 @@
 
+class Klin::Swap
+  attr_reader :pair, :g
+
+  def initialize(pair, g)
+    @pair = pair
+    @g = g
+  end
+
+  def eql?(other)
+    other.respond_to?(:pair) && @pair.eql?(other.pair) && @g.eql?(other.g)
+  end
+  alias_method :==, :eql?
+end
 class Klin::SwapScorer
   attr_reader :node_edges
 
@@ -7,9 +20,7 @@ class Klin::SwapScorer
   end
 
   def find_best_swap(pairs, differences)
-    max_pairs, max = find_all_best_swaps(pairs, differences)
-
-    [max_pairs.first, max]
+    find_all_best_swaps(pairs, differences).first
   end
 
 
@@ -33,14 +44,14 @@ class Klin::SwapScorer
 
       #puts "Cost of #{a}->#{b} is #{g} #{g > max ? 'max' : 'not max'} (#{differences[a]} + #{differences[b]} - 2*#{cost}"
       if g == max
-        max_pairs << pair
+        max_pairs << Klin::Swap.new(pair, g)
       elsif g > max
         max = g
-        max_pairs = [pair]
+        max_pairs = [Klin::Swap.new(pair, g)]
       end
     end
 
-    [max_pairs, max]
+    max_pairs
   end
 
   def cost_of_edge_between(a, b)

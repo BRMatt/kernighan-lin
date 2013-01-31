@@ -27,6 +27,7 @@ module Klin
 
       set_a_temp, set_b_temp = set_a.dup, set_b.dup
       swapped_nodes = []
+      swaps = []
 
       for i in 0..[set_a_temp.length, set_b_temp.length].min do
         # Generate all pairs of nodes (a,b) excluding the nodes in swapped_nodes
