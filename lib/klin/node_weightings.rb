@@ -32,11 +32,9 @@ class Klin::NodeWeightings
   private
   def internal_partition_for_node(node, set_a, set_b)
     if set_a.include? node
-      internal_nodes = set_a
-      external_nodes = set_b
+      set_a
     else
-      internal_nodes = set_b
-      external_nodes = set_a
+      set_b
     end
   end
 end
