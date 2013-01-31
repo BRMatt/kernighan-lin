@@ -11,6 +11,7 @@ module Klin
     def inspect
       "Node(#{String(@id)})"
     end
+    alias_method :to_s, :inspect
 
     def eql?(other)
       other.respond_to?(:id) && other.id == @id
@@ -50,5 +51,6 @@ module Klin
     def inspect
       "Edge(#{@source.inspect}-#{@target.inspect}, cost=#{@cost})"
     end
+    alias_method :to_s, :inspect
   end
 end
