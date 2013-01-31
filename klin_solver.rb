@@ -3,7 +3,6 @@ $:.unshift File.join(File.dirname(__FILE__),'lib')
 require 'klin/data_structures'
 require 'klin/pairer'
 require 'klin/partition'
-require 'klin/partition_costs'
 require 'klin/swap_scorer'
 require 'klin/gain_maximiser'
 require 'klin/node_weightings'
