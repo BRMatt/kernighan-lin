@@ -15,60 +15,71 @@ module Klin
       node_edges
     end
 
+    attr_reader :nodes, :edges, :node_edges
+
     def initialize(nodes, edges)
       @nodes      = Array(nodes).map { |node| Node(node) }
       @edges      = Array(edges).map { |edge| Edge(edge) }
-      @node_edges = self.class.denormalize_edges(edges)
+      @node_edges = self.class.denormalize_edges(@edges)
     end
 
     def calculate
       set_a,set_b = random_partition(nodes)
 
-      # Loop start
-      set_a_temp, set_b_temp = set_a.dup, set_b.dup
-      swapped_nodes = []
-      swaps = []
+      begin
+        set_a_temp, set_b_temp = set_a.dup, set_b.dup
+        swapped_nodes = []
+        swaps = []
 
-      for i in 0..[set_a_temp.length, set_b_temp.length].min do
-        # Generate all pairs of nodes (a,b) excluding the nodes in swapped_nodes
-        all_pairs = pairer.pairs(set_a_temp, set_b_temp, swapped_nodes)
+        differences  = node_weights.calculate(set_a_temp, set_b_temp)
 
-        swap = swap_scorer.find_best_swap(all_pairs, d)
+        for i in 0..[set_a_temp.length, set_b_temp.length].min do
+          # Generate all pairs of nodes (a,b) excluding the nodes in swapped_nodes
+          all_pairs = pairer.pairs(set_a_temp, set_b_temp, swapped_nodes)
 
-        swaps[i] = swap
+          if swap = swap_scorer.find_best_swap(all_pairs, differences)
+            swaps[i] = swap
 
-        swapped_nodes << swap.node_from_a
-        swapped_nodes << swap.node_from_b
+            swapped_nodes << swap.node_from_a
+            swapped_nodes << swap.node_from_b
 
-        set_a_temp.delete(swap.node_from_a)
-        set_b_temp.delete(swap.node_from_b)
+            set_a_temp.delete(swap.node_from_a)
+            set_b_temp.delete(swap.node_from_b)
 
-        set_a_temp << swap.node_from_b
-        set_b_temp << swap.node_from_a
-      end
+            set_a_temp << swap.node_from_b
+            set_b_temp << swap.node_from_a
 
-      index_of_max, g_max = gain_maximiser.maximise(swaps)
+            differences = node_weights.calculate(set_a_temp, set_b_temp)
+          end
+        end
 
-      for i in 0..index_of_max do
-        a.delete(swaps[i].node_from_a)
-        b.delete(swaps[i].node_from_b)
+        index_of_max, g_max = gain_maximiser.maximise(swaps)
 
-        a << swaps[i].node_from_b
-        b << swaps[i].node_from_a
-      end
+        for i in 0..index_of_max do
+          set_a.delete(swaps[i].node_from_a)
+          set_b.delete(swaps[i].node_from_b)
 
-      # Loop end
+          set_a << swaps[i].node_from_b
+          set_b << swaps[i].node_from_a
+        end
+
+      end while g_max > 0
+
+      [set_a, set_b]
     end
 
 
     private
     def random_partition(nodes, number_partitions = 2)
-      partitions = Array.new(number_partitions, [])
+      partitions = []
+      (0..(number_partitions-1)).each do |i|
+        partitions[i] = []
+      end
 
       nodes.each_index do |i|
-        partition = (i % number_partitions) == 0
+        partition = (i % number_partitions)
 
-        partitions[partition] << nodes[s]
+        partitions[partition] << nodes[i]
       end
 
       partitions
@@ -88,6 +99,10 @@ module Klin
 
     def gain_maximiser
       @gain_maximiser ||= GainMaximiser.new
+    end
+
+    def node_weights
+      @node_weights ||= NodeWeightings.new(nodes, node_edges)
     end
   end
 end
