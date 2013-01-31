@@ -5,11 +5,27 @@ GIT
     plymouth (0.3.3)
       pry-exception_explorer (~> 0.1.7)
 
+GIT
+  remote: git://github.com/nixme/pry-debugger.git
+  revision: cd6c78601ba58c05d26839c96026d9b9dd1a71e4
+  specs:
+    pry-debugger (0.2.1)
+      debugger (~> 1.2.0)
+      pry (~> 0.9.10)
+
 GEM
   remote: https://rubygems.org/
   specs:
     binding_of_caller (0.6.8)
     coderay (1.0.8)
+    columnize (0.3.6)
+    debugger (1.2.4)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.7)
+    debugger-linecache (1.1.2)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.7)
     diff-lcs (1.1.3)
     method_source (0.8.1)
     pry (0.9.11.4)
@@ -36,4 +52,5 @@ PLATFORMS
 DEPENDENCIES
   plymouth!
   pry
+  pry-debugger!
   rspec
