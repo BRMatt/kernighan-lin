@@ -35,6 +35,21 @@ describe Klin::Node do
     end
   end
 
+  describe "#hash" do
+    describe "#eql?" do
+      context "the same node" do
+        subject(:the_node) { node(:a) }
+        specify { expect(the_node.hash).to be(the_node.hash) }
+      end
+      context "different instance of node, same id" do
+        specify { expect(node(:a).hash).to be(node(:a).hash) }
+      end
+      context "different instances, different ids" do
+        specify { expect(node(:a).hash).to_not be(node(:b).hash) }
+      end
+    end
+  end
+
   describe "#inspect" do
     specify { expect(node(:a).inspect).to eql("Node(a)") }
   end

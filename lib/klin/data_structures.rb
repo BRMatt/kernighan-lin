@@ -13,9 +13,13 @@ module Klin
     end
 
     def eql?(other)
-      other.id == @id
+      other.respond_to?(:id) && other.id == @id
     end
     alias_method :==, :eql?
+
+    def hash
+      @id.hash
+    end
 
     def to_node
       self
