@@ -6,6 +6,7 @@ require 'klin/partition'
 require 'klin/partition_costs'
 require 'klin/swap_scorer'
 require 'klin/gain_maximiser'
+require 'klin/node_weightings'
 
 def Node(node)
   if node.respond_to? :to_node
